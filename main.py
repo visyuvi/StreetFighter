@@ -3,6 +3,7 @@ from settings import *
 import pygame as pg
 from fighter import Fighter
 
+
 class App:
     def __init__(self):
         pg.init()
@@ -17,7 +18,9 @@ class App:
 
     def update(self):
         self.clock.tick(FPS)
-        self.fighter1.move()
+        self.fighter1.move(self.fighter2)
+        pg.display.update()
+
         # self.fighter2.move()
 
     def draw_bg(self):
@@ -28,7 +31,6 @@ class App:
         self.draw_bg()
         self.fighter1.draw()
         self.fighter2.draw()
-        pg.display.update()
 
     def reset(self):
         pass
@@ -41,9 +43,9 @@ class App:
 
     def run(self):
         while True:
-            self.draw()
             self.check_events()
             self.update()
+            self.draw()
 
 
 if __name__ == "__main__":
