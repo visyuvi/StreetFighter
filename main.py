@@ -1,4 +1,7 @@
 import sys
+
+import pygame.draw
+
 from settings import *
 import pygame as pg
 from fighter import Fighter
@@ -30,7 +33,9 @@ class App:
     def draw(self):
         self.draw_bg()
         self.fighter1.draw()
+        self.fighter1.draw_health_bar(20, 20)
         self.fighter2.draw()
+        self.fighter2.draw_health_bar(580, 20)
 
     def reset(self):
         pass

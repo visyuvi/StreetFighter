@@ -10,6 +10,8 @@ class Fighter:
         self.rect = pygame.Rect((x, y, 80, 180))
         self.vel_y = 0
         self.jump = False
+        self.health = 100
+        self.flip = False
 
     def move(self, target):
         SPEED = 10
@@ -56,15 +58,28 @@ class Fighter:
             dy = FIELD_H - 110 - self.rect.bottom
             self.jump = False
 
+        # ensure players face each other
+        if target.rect.centerx > self.rect.centerx:
+            self.flip = False
+        else:
+            self.flip = True
         # update player position
         self.rect.x += dx
         self.rect.y += dy
 
+    def draw_health_bar(self, x, y):
+        ratio = self.health / 100
+
+        pygame.draw.rect(self.app.screen, WHITE, (x - 1, y - 1, 402, 32),)
+        pygame.draw.rect(self.app.screen, RED, (x, y, 400, 30))
+        pygame.draw.rect(self.app.screen, YELLOW, (x, y, 400 * ratio, 30))
+
     def attack(self, target):
         self.attacking = True
-        attacking_rect = pygame.Rect(self.rect.centerx, self.rect.y,  2 * self.rect.width, self.rect.height)
+        attacking_rect = pygame.Rect(self.rect.centerx - 2 * (self.rect.width * self.flip),
+                                     self.rect.y,  2 * self.rect.width, self.rect.height)
         if attacking_rect.colliderect(target.rect):
-            print("Hit")
+            target.health -= 10
         pg.draw.rect(self.app.screen, GREEN, attacking_rect)
 
     def draw(self):
