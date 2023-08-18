@@ -1,7 +1,7 @@
 import sys
 from settings import *
 import pygame as pg
-
+from fighter import Fighter
 
 class App:
     def __init__(self):
@@ -9,12 +9,16 @@ class App:
         pg.display.set_caption('Brawler')
         self.screen = pg.display.set_mode(FIELD_RES)
         self.clock = pg.time.Clock()
+        self.fighter1 = Fighter(200, 300, self)
+        self.fighter2 = Fighter(700, 310, self)
+
         # background image
         self.bg_image = pg.image.load('assets/images/background/background.jpg').convert_alpha()
 
     def update(self):
         self.clock.tick(FPS)
-        pg.display.update()
+        self.fighter1.move()
+        # self.fighter2.move()
 
     def draw_bg(self):
         scaled_bg = pg.transform.scale(self.bg_image, FIELD_RES)
@@ -22,6 +26,9 @@ class App:
 
     def draw(self):
         self.draw_bg()
+        self.fighter1.draw()
+        self.fighter2.draw()
+        pg.display.update()
 
     def reset(self):
         pass
